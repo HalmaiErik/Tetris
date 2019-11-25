@@ -197,7 +197,7 @@ public enum TileTypes {
     private int dimension;
     //nr of rows that have true in tiles matrix (when rotation = 0)
     private int row;
-    //nr of coloumns that have true in tiles matrix (when rotation = 0)
+    //nr of columns that have true in tiles matrix (when rotation = 0)
     private int col;
 
     //tile matrix for this piece
@@ -219,12 +219,12 @@ public enum TileTypes {
         this.row = row;
 
         this.spawnCol = 5 - (dimension >> 1);
-        this.spawnRow =
+        this.spawnRow = 0;
     }
 
     /**
      * Gets color of piece.
-     * @return Color of piece
+     * @return colorPiece
      */
     public Color getColorPiece() {
         return colorPiece;
@@ -232,26 +232,113 @@ public enum TileTypes {
 
     /**
      * Gets dimension of piece
-     * @return Dimension of piece's matrix
+     * @return dimension
      */
     public int getDimension() {
         return dimension
     }
 
-
+    /**
+     * Gets spawn row of piece
+     * @return spawnRow
+     */
     public int getSpawnRow() {
         return spawnRow;
     }
 
-    public int getSpawnCol() {
+    /**
+     * Gets spawn column of piece
+     * @return spawnCol
+     */
+    public int getSpawnColumn() {
         return spawnCol;
     }
 
+    /**
+     * Gets number of rows that have true in tiles matrix (when rotation = 0)
+     * @return row
+     */
     public int getRow() {
         return row;
     }
 
+    /**
+     * Gets number of columns that have true in tiles matrix (when rotation = 0)
+     * @return col
+     */
     public int getCol() {
         return col;
+    }
+
+    /**
+     * Checks if the given coordinates and rotation is already occupied
+     * @param x The x coordinate of the piece
+     * @param y The y corrdinate of the piece
+     * @param rotation The rotation of the piece
+     * @return true if occupied, false if not
+     */
+    public boolean isOccupied(int x, int y, int rotation) {
+        return tiles[rotation][y * dimension + x];
+    }
+
+
+    /**
+     * Returns the number of empty columns on the left of the array of tiles
+     * @param rotation The rotation of the piece
+     * @return Number of empty columns on the left
+     */
+    public int getLeftEmpty(int rotation) {
+        for (int x = 0; x < dimension; x++) {
+            for (int y = 0; y < dimension; y++) {
+                if (isOccupied(x, y, rotation))
+                    return x;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Returns the number of empty columns on the right of the array of tiles
+     * @param rotation The rotation of the piece
+     * @return Number of empty columns on the right
+     */
+    public int getRightEmpty(int rotation) {
+        for (int x = dimension - 1; x >= 0; x--) {
+            for (int y = 0; y < dimension; y++) {
+                if(isOccupied(x, y, rotation))
+                    return dimension - x
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Returns the number of empty rows above the array of tiles
+     * @param rotation The rotation of the piece
+     * @return Number of empty rows above
+     */
+    public int getAboveEmpty(int rotation) {
+        for (int y = 0; y < dimension; y++) {
+            for (int x = 0; x < dimension; x++) {
+                if(isOccupied(x, y, rotation))
+                    return y
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Returns the number of empty rows below the array of tiles
+     * @param rotation The rotation of the piece
+     * @return Number of empty rows below
+     */
+    public int getBelowEmpty(int rotation) {
+        for (int y = dimension - 1; y >= 0; y--) {
+            for (int x = 0; x < dimension; x++) {
+                if(isOccupied(x, y, rotation))
+                    return dimension - y;
+            }
+        }
+        return -1;
     }
 }
