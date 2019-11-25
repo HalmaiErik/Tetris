@@ -1,12 +1,13 @@
-package Tiles;
+// TODO: 25-Nov-19 check if everything ok
+package Pieces;
 
-import java.awt.Color;
+import java.awt.Color; 
 
 /**
  * Each piece is made of tiles in a specific formation
  */
 
-public enum TileTypes {
+public enum Piece {
     /**
      * Piece I
      */
@@ -195,9 +196,9 @@ public enum TileTypes {
 
     //dimension of piece's matrix: a matrix of size dimensionXdimension
     private int dimension;
-    //nr of rows that have true in tiles matrix (when rotation = 0)
+    //nr of rows that have true in tiles matrix of piece (when rotation = 0)
     private int row;
-    //nr of columns that have true in tiles matrix (when rotation = 0)
+    //nr of columns that have true in tiles matrix of piece (when rotation = 0)
     private int col;
 
     //tile matrix for this piece
@@ -205,18 +206,18 @@ public enum TileTypes {
 
     /**
      * Creates a new piece
-     * @param color
-     * @param dimension
-     * @param cols
-     * @param rows
-     * @param tiles
+     * @param color The color of the piece
+     * @param dimension The dimension of the piece
+     * @param cols The nr of columns that have true in tiles matrix of piece (when rotation = 0)
+     * @param rows The nr of rows that have true in tiles matrix of piece (when rotation = 0)
+     * @param tiles The tile matrix of piece
      */
-    private TileTypes(Color color, int dimension, int cols, int rows, boolean[][] tiles) {
+    private Piece(Color color, int dimension, int cols, int rows, boolean[][] tiles) {
         this.colorPiece = color;
         this.dimension = dimension;
         this.tiles = tiles;
-        this.col = col;
-        this.row = row;
+        this.col = cols;
+        this.row = rows;
 
         this.spawnCol = 5 - (dimension >> 1);
         this.spawnRow = 0;
@@ -235,7 +236,7 @@ public enum TileTypes {
      * @return dimension
      */
     public int getDimension() {
-        return dimension
+        return dimension;
     }
 
     /**
@@ -306,7 +307,7 @@ public enum TileTypes {
         for (int x = dimension - 1; x >= 0; x--) {
             for (int y = 0; y < dimension; y++) {
                 if(isOccupied(x, y, rotation))
-                    return dimension - x
+                    return dimension - x;
             }
         }
         return -1;
@@ -321,7 +322,7 @@ public enum TileTypes {
         for (int y = 0; y < dimension; y++) {
             for (int x = 0; x < dimension; x++) {
                 if(isOccupied(x, y, rotation))
-                    return y
+                    return y;
             }
         }
         return -1;
