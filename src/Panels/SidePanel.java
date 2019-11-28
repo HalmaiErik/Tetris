@@ -25,7 +25,7 @@ public class SidePanel extends JPanel {
     private static int LARGE_INSET = 40;
 
     //dimension of each tile on the next piece preview
-    private static final int PREVIEW_TILE_SIZE = BoardPanel.TILE_SIZE >> 1;
+    private static final int PREVIEW_TILE_SIZE = GamePanel.TILE_SIZE >> 1;
     //nr of rows and columns of preview window
     private static final int PREVIEW_TILE_COUNT = 5;
     //center x of preview window
@@ -49,7 +49,7 @@ public class SidePanel extends JPanel {
      */
     public SidePanel(Tetris tetris) {
         this.tetris = tetris;
-        setPreferredSize(new Dimension(200, BoardPanel.PANEL_HEIGHT));
+        setPreferredSize(new Dimension(200, GamePanel.PANEL_HEIGHT));
         setBackground(Color.BLACK);
     }
 
