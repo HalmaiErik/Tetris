@@ -1,6 +1,7 @@
 package Panels;
 
 import Pieces.Piece;
+import Panels.GamePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -123,7 +124,7 @@ public class SidePanel extends JPanel {
             // Draw piece's tiles
             for (int i = 0; i < dimension; i++) {
                 for (int j = 0; j < dimension; j++) {
-                    if (piece.isOccupied(i, j, 0)) {
+                    if (piece.isTile(i, j, 0)) {
                         drawTile(piece, startX + ((j - left) * PREVIEW_TILE_SIZE), startY + ((i - top) * PREVIEW_TILE_SIZE), g);
                     }
                 }

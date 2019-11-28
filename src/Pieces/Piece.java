@@ -1,4 +1,3 @@
-// TODO: 25-Nov-19 check if everything ok
 package Pieces;
 
 import java.awt.Color; 
@@ -11,7 +10,7 @@ public enum Piece {
     /**
      * Piece I
      */
-    TypeI(new Color(BoardPanel.COLOR_MIN, BoardPanel.COLOR_MAX, BoardPanel.COLOR_MAX), 4, 4, 1, new boolean[][] {
+    TypeI(new Color(35, 220, 220), 4, 4, 1, new boolean[][] {
             {
                     false,	false,	false,	false,
                     true,	true,	true,	true,
@@ -41,7 +40,7 @@ public enum Piece {
     /**
      * Piece J
      */
-    TypeJ(new Color(BoardPanel.COLOR_MIN, BoardPanel.COLOR_MIN, BoardPanel.COLOR_MAX), 3, 3, 2, new boolean[][] {
+    TypeJ(new Color(35, 35, 220), 3, 3, 2, new boolean[][] {
             {
                     true,	false,	false,
                     true,	true,	true,
@@ -67,7 +66,7 @@ public enum Piece {
     /**
      * Piece L
      */
-    TypeL(new Color(BoardPanel.COLOR_MAX, 127, BoardPanel.COLOR_MIN), 3, 3, 2, new boolean[][] {
+    TypeL(new Color(220, 127, 35), 3, 3, 2, new boolean[][] {
             {
                     false,	false,	true,
                     true,	true,	true,
@@ -93,7 +92,7 @@ public enum Piece {
     /**
      * Piece O
      */
-    TypeO(new Color(BoardPanel.COLOR_MAX, BoardPanel.COLOR_MAX, BoardPanel.COLOR_MIN), 2, 2, 2, new boolean[][] {
+    TypeO(new Color(220, 220, 35), 2, 2, 2, new boolean[][] {
             {
                     true,	true,
                     true,	true,
@@ -115,7 +114,7 @@ public enum Piece {
     /**
      * Piece S
      */
-    TypeS(new Color(BoardPanel.COLOR_MIN, BoardPanel.COLOR_MAX, BoardPanel.COLOR_MIN), 3, 3, 2, new boolean[][] {
+    TypeS(new Color(35, 220, 35), 3, 3, 2, new boolean[][] {
             {
                     false,	true,	true,
                     true,	true,	false,
@@ -141,7 +140,7 @@ public enum Piece {
     /**
      * Piece T
      */
-    TypeT(new Color(128, BoardPanel.COLOR_MIN, 128), 3, 3, 2, new boolean[][] {
+    TypeT(new Color(128, 35, 128), 3, 3, 2, new boolean[][] {
             {
                     false,	true,	false,
                     true,	true,	true,
@@ -167,7 +166,7 @@ public enum Piece {
     /**
      * Piece Z
      */
-    TypeZ(new Color(BoardPanel.COLOR_MAX, BoardPanel.COLOR_MIN, BoardPanel.COLOR_MIN), 3, 3, 2, new boolean[][] {
+    TypeZ(new Color(220, 35, 35), 3, 3, 2, new boolean[][] {
             {
                     true,	true,	false,
                     false,	true,	true,
@@ -278,7 +277,7 @@ public enum Piece {
      * @param rotation The rotation of the piece
      * @return true if occupied, false if not
      */
-    public boolean isOccupied(int x, int y, int rotation) {
+    public boolean isTile(int x, int y, int rotation) {
         return tiles[rotation][y * dimension + x];
     }
 
@@ -291,7 +290,7 @@ public enum Piece {
     public int getLeftEmpty(int rotation) {
         for (int x = 0; x < dimension; x++) {
             for (int y = 0; y < dimension; y++) {
-                if (isOccupied(x, y, rotation))
+                if (isTile(x, y, rotation))
                     return x;
             }
         }
@@ -306,7 +305,7 @@ public enum Piece {
     public int getRightEmpty(int rotation) {
         for (int x = dimension - 1; x >= 0; x--) {
             for (int y = 0; y < dimension; y++) {
-                if(isOccupied(x, y, rotation))
+                if(isTile(x, y, rotation))
                     return dimension - x;
             }
         }
@@ -321,7 +320,7 @@ public enum Piece {
     public int getAboveEmpty(int rotation) {
         for (int y = 0; y < dimension; y++) {
             for (int x = 0; x < dimension; x++) {
-                if(isOccupied(x, y, rotation))
+                if(isTile(x, y, rotation))
                     return y;
             }
         }
@@ -336,7 +335,7 @@ public enum Piece {
     public int getBelowEmpty(int rotation) {
         for (int y = dimension - 1; y >= 0; y--) {
             for (int x = 0; x < dimension; x++) {
-                if(isOccupied(x, y, rotation))
+                if(isTile(x, y, rotation))
                     return dimension - y;
             }
         }
