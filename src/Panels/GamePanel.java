@@ -2,13 +2,15 @@ package Panels;
 
 import Pieces.Piece;
 
+import javax.swing.JPanel;
 import java.awt.*;
+import java.awt.Graphics;
 
 /**
  * Displays game panel and handles things related to the game board
  */
 
-public class GamePanel {
+public class GamePanel extends JPanel {
     // Width of border around game board
     private static final int BORDER_WIDTH = 5;
     // Number of columns on game board
@@ -163,5 +165,112 @@ public class GamePanel {
             }
         }
         return completedLines;
+    }
+
+    /**
+     * Draws a tile onto the board
+     * @param color The color of tile.
+     * @param x The column
+     * @param y The row
+     * @param g The graphics object
+     */
+    private void drawTile(Color color, int x, int y, Graphics g) {
+        g.setColor(color);
+        g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        //This helps simplify the positioning of things.
+        g.translate(BORDER_WIDTH, BORDER_WIDTH);
+
+
+        // Draw the board differently depending on the current game state.
+        if(tetris.isPaused()) {
+            g.setFont(LARGE_FONT);
+            g.setColor(Color.WHITE);
+            String msg = "PAUSED";
+            g.drawString(msg, CENTER_X - g.getFontMetrics().stringWidth(msg) / 2, CENTER_Y);
+        } else if(tetris.isNewGame() || tetris.isGameOver()) {
+            g.setFont(LARGE_FONT);
+            g.setColor(Color.WHITE);
+
+            String msg = tetris.isNewGame() ? "TETRIS" : "GAME OVER";
+            g.drawString(msg, CENTER_X - g.getFontMetrics().stringWidth(msg) / 2, 150);
+            g.setFont(SMALL_FONT);
+            msg = "Press Enter to Play" + (tetris.isNewGame() ? "" : " Again");
+            g.drawString(msg, CENTER_X - g.getFontMetrics().stringWidth(msg) / 2, 300);
+        } else {
+            // Draw tiles
+            for(int x = 0; x < COLS; x++) {
+                for(int y = HIDDEN_ROWS; y < ROWS; y++) {
+                    Piece tile = pieces[y][x]
+                    if(tile != null) {
+                        drawTile(tile, x * TILE_SIZE, (y - HIDDEN_ROWS) * TILE_SIZE, g);
+                    }
+                }
+            }
+
+            /*
+             * Draw the current piece. This cannot be drawn like the rest of the
+             * pieces because it's still not part of the game board. If it were
+             * part of the board, it would need to be removed every frame which
+             * would just be slow and confusing.
+             */
+            Piece piece = tetris.getPieceType();
+            int pieceCol = tetris.getPieceCol();
+            int pieceRow = tetris.getPieceRow();
+            int rotation = tetris.getPieceRotation();
+
+            //Draw the piece onto the board.
+            for(int col = 0; col < piece.getDimension(); col++) {
+                for(int row = 0; row < piece.getDimension(); row++) {
+                    if(pieceRow + row >= 2 && piece.isTile(col, row, rotation)) {
+                        drawTile(piece.getColorPiece(), (pieceCol + col) * TILE_SIZE, (pieceRow + row - HIDDEN_ROWS) * TILE_SIZE, g);
+                    }
+                }
+            }
+
+            // Draw the ghost (semi-transparent piece that shows where the current piece will land)
+            Color base = piece.getColorPiece();
+            base = new Color(base.getRed(), base.getGreen(), base.getBlue(), 20);
+            for(int lowest = pieceRow; lowest < ROWS; lowest++) {
+                //If no collision is detected, try the next row.
+                if(isValidAndEmpty(piece, pieceCol, lowest, rotation)) {
+                    continue;
+                }
+
+                //Draw the ghost one row higher than the one the collision took place at.
+                lowest--;
+
+                //Draw the ghost piece.
+                for(int col = 0; col < piece.getDimension(); col++) {
+                    for(int row = 0; row < piece.getDimension(); row++) {
+                        if(lowest + row >= 2 && piece.isTile(col, row, rotation)) {
+                            drawTile(base, (pieceCol + col) * TILE_SIZE, (lowest + row - HIDDEN_ROWS) * TILE_SIZE, g);
+                        }
+                    }
+                }
+
+                break;
+            }
+
+            // Draw the background grid above the pieces.
+            g.setColor(Color.DARK_GRAY);
+            for(int x = 0; x < COLS; x++) {
+                for(int y = 0; y < VISIBLE_ROWS; y++) {
+                    g.drawLine(0, y * TILE_SIZE, COLS * TILE_SIZE, y * TILE_SIZE);
+                    g.drawLine(x * TILE_SIZE, 0, x * TILE_SIZE, VISIBLE_ROWS * TILE_SIZE);
+                }
+            }
+        }
+
+        /*
+         * Draw the outline.
+         */
+        g.setColor(Color.WHITE);
+        g.drawRect(0, 0, TILE_SIZE * COLS, TILE_SIZE * VISIBLE_ROWS);
     }
 }
