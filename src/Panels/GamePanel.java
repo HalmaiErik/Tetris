@@ -1,6 +1,7 @@
 package Panels;
 
 import Pieces.Piece;
+import Game.Tetris;
 
 import javax.swing.JPanel;
 import java.awt.*;
@@ -206,25 +207,21 @@ public class GamePanel extends JPanel {
             // Draw tiles
             for(int x = 0; x < COLS; x++) {
                 for(int y = HIDDEN_ROWS; y < ROWS; y++) {
-                    Piece tile = pieces[y][x]
+                    Piece tile = pieces[y][x];
                     if(tile != null) {
-                        drawTile(tile, x * TILE_SIZE, (y - HIDDEN_ROWS) * TILE_SIZE, g);
+                        drawTile(tile.getColorPiece(), x * TILE_SIZE, (y - HIDDEN_ROWS) * TILE_SIZE, g);
                     }
                 }
             }
 
-            /*
-             * Draw the current piece. This cannot be drawn like the rest of the
-             * pieces because it's still not part of the game board. If it were
-             * part of the board, it would need to be removed every frame which
-             * would just be slow and confusing.
-             */
+
+            // Draw the current piece
             Piece piece = tetris.getPieceType();
             int pieceCol = tetris.getPieceCol();
             int pieceRow = tetris.getPieceRow();
             int rotation = tetris.getPieceRotation();
 
-            //Draw the piece onto the board.
+            // Draw the piece onto the board.
             for(int col = 0; col < piece.getDimension(); col++) {
                 for(int row = 0; row < piece.getDimension(); row++) {
                     if(pieceRow + row >= 2 && piece.isTile(col, row, rotation)) {
@@ -242,10 +239,10 @@ public class GamePanel extends JPanel {
                     continue;
                 }
 
-                //Draw the ghost one row higher than the one the collision took place at.
+                // Draw the ghost one row higher than the one the collision took place at.
                 lowest--;
 
-                //Draw the ghost piece.
+                // Draw the ghost piece.
                 for(int col = 0; col < piece.getDimension(); col++) {
                     for(int row = 0; row < piece.getDimension(); row++) {
                         if(lowest + row >= 2 && piece.isTile(col, row, rotation)) {

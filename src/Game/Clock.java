@@ -40,8 +40,27 @@ public class Clock {
     public void reset() {
         this.elapsedCycles = 0;
         this.excessCycles = 0.0f;
-        this.lastUpdate = getCurretnTime();
+        this.lastUpdate = getCurrentTime();
         this.isPaused = false;
+    }
+
+    /**
+     * Updates the clock stats. The number of elapsed cycles, as well as the
+     * cycle excess will be calculated only if the clock is not paused.
+     */
+    public void update() {
+        //Get the current time and calculate the delta time
+        long currUpdate = getCurrentTime();
+        float delta = (float)(currUpdate - lastUpdate) + excessCycles;
+
+        //Update the number of elapsed and excess cycles if we're not paused
+        if(!isPaused) {
+            this.elapsedCycles += (int)Math.floor(delta / millisPerCycle);
+            this.excessCycles = delta % millisPerCycle;
+        }
+
+        //Set the last update time to current update time
+        this.lastUpdate = currUpdate;
     }
 
     /**
@@ -80,7 +99,7 @@ public class Clock {
      * More accurate than {@code System.getCurrentTimeMillis()}
      * @return The current time in milliseconds
      */
-    private static final long getCurretnTime() {
+    private static final long getCurrentTime() {
         return (System.nanoTime() / 1000000L);
     }
 

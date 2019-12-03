@@ -2,6 +2,7 @@ package Panels;
 
 import Pieces.Piece;
 import Panels.GamePanel;
+import Game.Tetris;
 
 import javax.swing.*;
 import java.awt.*;
@@ -84,8 +85,8 @@ public class SidePanel extends JPanel {
         g.setFont(TEXT_LARGE_FONT);
         g.drawString("Stats", SMALL_INSET, offset = STATS_COORDINATE_Y);
         g.setFont(TEXT_SMALL_FONT);
-        g.drawString("Level: " + tetris.getLevel(), TEXT_LARGE_FONT, offset += TEXT_OFFSET);
-        g.drawString("Score: " + tetris.getScore(), TEXT_LARGE_FONT, offset += TEXT_OFFSET);
+        g.drawString("Level: " + tetris.getLevel(), 30, offset += TEXT_OFFSET);
+        g.drawString("Score: " + tetris.getScore(), 30, offset += TEXT_OFFSET);
 
         // Draw Controls
         g.setFont(TEXT_LARGE_FONT);
@@ -104,7 +105,7 @@ public class SidePanel extends JPanel {
         g.drawRect(PREVIEW_CENTER_X - PREVIEW_WINDOW_SIZE, PREVIEW_CENTER_Y - PREVIEW_WINDOW_SIZE, PREVIEW_WINDOW_SIZE * 2, PREVIEW_WINDOW_SIZE * 2);
 
         // Draw Preview of next piece
-        Piece piece = tetris.getNextPiece();
+        Piece piece = tetris.getNextPieceType();
         if(!tetris.isGameOver() && piece != null) {
             // Get size properties
             int col = piece.getCol();
