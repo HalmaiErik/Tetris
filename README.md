@@ -1,5 +1,5 @@
 # Tetris
-Tetris created in Java
+Tetris created in Java.
 
 ## Description
   This is tetris, created in Java using Java Swing. It has two panels, the Game Panel where the actual game takes place and the Side Panel where the score of the player, the level of difficulty and the controls are displayed. 
